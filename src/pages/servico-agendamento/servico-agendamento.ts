@@ -1,5 +1,6 @@
+import { HomePage } from './../home/home';
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, AlertController } from 'ionic-angular';
 
 /**
  * Generated class for the ServicoAgendamentoPage page.
@@ -15,11 +16,55 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
 })
 export class ServicoAgendamentoPage {
 
-  constructor(public navCtrl: NavController, public navParams: NavParams) {
+  testCheckboxResult: any;
+  testCheckboxOpen: boolean;
+  constructor(public navCtrl: NavController, 
+    public navParams: NavParams,
+    public alertCtlr: AlertController ) {
   }
 
-  ionViewDidLoad() {
-    console.log('ionViewDidLoad ServicoAgendamentoPage');
+  pesquisaHoraDisponivel(){
+    let alert = this.alertCtlr.create();
+    alert.setTitle('Escolha uma horário: ');
+
+    alert.addInput({
+      type: 'checkbox',
+      label: '12:00',
+      value: '12:00'
+    });
+    alert.addInput({
+      type: 'checkbox',
+      label: '12:30',
+      value: '12:30'
+    });
+    
+    alert.addButton('Cancelar');
+    alert.addButton({
+      text: 'Confirmar',
+      handler: data => {
+        console.log('Checkbox data:', data);
+        this.testCheckboxOpen = false;
+        this.testCheckboxResult = data;
+      }
+    });
+    alert.present();
   }
 
+  alertConfirmar(){
+    let alert = this.alertCtlr.create();
+    alert.setTitle('Mensagem do sistema!');
+    alert.setMessage('Seu agendamento foi realizado com sucesso!');
+    alert.addButton({
+      text: 'OK',
+      handler: data => {
+        console.log('Checkbox data:', data);
+        this.mudar();
+      }
+    });
+    alert.present();
+    }
+
+    mudar(){
+      let mudar = this.navCtrl.setRoot(HomePage);
+    }
 }
